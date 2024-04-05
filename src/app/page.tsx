@@ -6,23 +6,16 @@ export default async function Home() {
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto('https://www.foreca.fi/Finland/Pedersoren_Kunta/Bennas');
+  await page.goto('https://www.foreca.com/sv/100660735/Bennäs-Pedersöre-Finland');
 
-  // Hämtar alla h1
   const headings = await page.evaluate(() => Array.from(document.querySelectorAll('h1'), element => element.textContent));
-
-  // Hämtar alla p
-  const text = await page.evaluate(() => Array.from(document.querySelectorAll('p'), element => element.innerText));
-
-
-  console.log('Paragraphs:', text);
-  console.log('Headings:', headings);
+  const text = await page.evaluate(() => Array.from(document.querySelectorAll('.row'), element => element.textContent));
 
   await browser.close();
 
   return (
     <div>
-      <DisplayerComponent headings={headings} />
+      <DisplayerComponent headings={headings} text={text} />
     </div>
   )
 }
